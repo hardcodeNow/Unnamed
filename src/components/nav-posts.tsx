@@ -2,10 +2,15 @@
 
 import {
   AudioLines,
+  Bot,
+  CircleDollarSign,
+  FileText,
   Folder,
   MoreHorizontal,
+  ScrollText,
   Share,
   Trash2,
+  WandSparkles,
 } from "lucide-react";
 
 import {
@@ -25,10 +30,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-export function NavVoices({
-  voices,
+export function NavPosts({
+  posts,
 }: {
-  voices: {
+  posts: {
     name: string;
     url: string;
   }[];
@@ -37,14 +42,16 @@ export function NavVoices({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel className="my-1">音频列表</SidebarGroupLabel>
+      <SidebarGroupLabel className="my-1">文档列表</SidebarGroupLabel>
       <SidebarMenu>
-        {voices.map((item) => (
+        {posts.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <AudioLines />
-                <span>{item.name}</span>
+                <FileText />
+                <div className="flex flex-col">
+                  <span>{item.name}</span>
+                </div>
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
@@ -60,17 +67,12 @@ export function NavVoices({
                 align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
                   <Share className="text-muted-foreground" />
-                  <span>Share Project</span>
+                  <span>分享</span>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Trash2 className="text-muted-foreground" />
-                  <span>Delete Project</span>
+                  <span>移除文章</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -11,7 +11,7 @@ import {
 
 import Logo from "@/assets/logo.png";
 
-import { NavVoices } from "@/components/nav-voices";
+import { NavPosts } from "@/components/nav-posts";
 import { NavSecondary } from "@/components/nav-secondary";
 import {
   Sidebar,
@@ -33,9 +33,9 @@ const data = {
       icon: LifeBuoy,
     },
   ],
-  voices: [
+  posts: [
     {
-      name: "黑客松项目组录音",
+      name: "黑客松项目组一",
       url: "#",
     },
     {
@@ -43,7 +43,7 @@ const data = {
       url: "#",
     },
     {
-      name: "Travel",
+      name: "张博面试介绍",
       url: "#",
     },
   ],
@@ -57,13 +57,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="https://github.com/hardcodeNow" target="_blank">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <div className="flex aspect-square size-9 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Image src={Logo} alt="Logo" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="grid flex-1 gap-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">VoicePad</span>
                   <span className="truncate text-xs">
-                    Maked by Hardcode Team
+                    由 Hardcode Team 创作
                   </span>
                 </div>
               </a>
@@ -72,10 +72,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavVoices voices={data.voices} />
+        <NavPosts posts={data.posts} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="pb-0">
         <NavAction />
       </SidebarFooter>
     </Sidebar>
