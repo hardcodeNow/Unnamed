@@ -5,11 +5,10 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { HydrateClient } from "@/trpc/server";
-import { Toast } from "@/components/ui/toast";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Unnamed",
+  title: "VoicePad",
   description: "A super niubi project.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

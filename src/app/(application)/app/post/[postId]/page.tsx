@@ -16,6 +16,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
 import { useState } from "react";
+import OutlineEditor from "@/components/outline-editor";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const [tab, setTab] = useState("card");
@@ -64,7 +65,7 @@ export default function Page({ params }: { params: { postId: string } }) {
       </header>
       {tab === "outline" && (
         <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 p-4">
-          原文
+          <OutlineEditor />
           {/* <div className="absolute bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2">
             <Button variant="outline" className="rounded-full">
               <Mic />
