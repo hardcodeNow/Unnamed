@@ -22,7 +22,7 @@ import { Mic, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 export default function Page() {
-  const [tab, setTab] = useState("content");
+  const [tab, setTab] = useState("card");
 
   return (
     <SidebarProvider>
@@ -47,16 +47,16 @@ export default function Page() {
           <div className="flex items-center gap-2 px-4">
             <Tabs value={tab} onValueChange={(e) => setTab(e)}>
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="content">原文</TabsTrigger>
-                <TabsTrigger value="ai">生成总结</TabsTrigger>
+                <TabsTrigger value="outline">大纲</TabsTrigger>
+                <TabsTrigger value="card">AI 卡片</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
         </header>
-        {tab === "content" && (
-          <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 pt-0">
+        {tab === "outline" && (
+          <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 p-4">
             原文
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 space-x-2">
+            <div className="absolute bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2">
               <Button variant="outline" className="rounded-full">
                 <Mic />
                 录制
@@ -68,7 +68,7 @@ export default function Page() {
             </div>
           </div>
         )}
-        {tab === "ai" && (
+        {tab === "card" && (
           <div className="m-4 mt-0 flex flex-1 flex-col items-center justify-center rounded-xl bg-zinc-50 pt-0">
             {/* <HackathonCard /> */}
             <PersonalCard />
