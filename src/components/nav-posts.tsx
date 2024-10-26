@@ -1,23 +1,11 @@
 "use client";
 
-import {
-  AudioLines,
-  Bot,
-  CircleDollarSign,
-  FileText,
-  Folder,
-  MoreHorizontal,
-  ScrollText,
-  Share,
-  Trash2,
-  WandSparkles,
-} from "lucide-react";
+import { FileText, MoreHorizontal, Share, Trash2 } from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -29,15 +17,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { type Post } from "@/types/post";
 
-export function NavPosts({
-  posts,
-}: {
-  posts: {
-    name: string;
-    url: string;
-  }[];
-}) {
+export function NavPosts({ posts }: { posts: Post[] }) {
   const { isMobile } = useSidebar();
 
   return (
@@ -45,12 +27,12 @@ export function NavPosts({
       <SidebarGroupLabel className="my-1">文档列表</SidebarGroupLabel>
       <SidebarMenu>
         {posts.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <a href="#">
                 <FileText />
                 <div className="flex flex-col">
-                  <span>{item.name}</span>
+                  <span>{item.title}</span>
                 </div>
               </a>
             </SidebarMenuButton>

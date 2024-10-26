@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { NavAction } from "./nav-action";
+import { usePostStore } from "@/stores/post";
 
 const data = {
   navSecondary: [
@@ -33,23 +34,11 @@ const data = {
       icon: LifeBuoy,
     },
   ],
-  posts: [
-    {
-      name: "黑客松项目组一",
-      url: "#",
-    },
-    {
-      name: "投资人 - 张三对话",
-      url: "#",
-    },
-    {
-      name: "张博面试介绍",
-      url: "#",
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { posts } = usePostStore();
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -72,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavPosts posts={data.posts} />
+        <NavPosts posts={posts} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter className="pb-0">
