@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  name      String
-  outline   String    @db.Text
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  card      Card[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String    @db.Text
+  outline     String    @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  card        Card[]
 
   @@index([name])
 }

@@ -90,7 +90,7 @@ const listPosts = publicProcedure
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
-const genByrecord = publicProcedure
+const genByRecord = publicProcedure
   .input(
     z.object({
       file: z.object({
@@ -159,5 +159,5 @@ export const postRouter = createTRPCRouter({
   update: updatePost,
   delete: deletePost,
   list: listPosts,
-  genByrecord: genByrecord,
+  genByRecord: genByRecord,
 });
