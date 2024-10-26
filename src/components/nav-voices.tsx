@@ -37,7 +37,7 @@ export function NavVoices({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Recording List</SidebarGroupLabel>
+      <SidebarGroupLabel className="my-1">音频列表</SidebarGroupLabel>
       <SidebarMenu>
         {voices.map((item) => (
           <SidebarMenuItem key={item.name}>
