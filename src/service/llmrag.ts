@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-export type LlmragResponse = {
-  type: "message" | "answer";
-  content: string;
+export type LlmragApiResponse = {
+  event: string;
+  task_id: string;
+  id: string;
+  message_id: string;
+  conversation_id: string;
+  mode: string;
+  answer: string;
+  metadata: Record<string, unknown>;
+  created_at: number;
 };
 
 export const chatMessages = async (
   back_ground_message: string,
   query: string,
   user: string,
-): Promise<LlmragResponse> => {
+): Promise<LlmragApiResponse> => {
   // 接口 url 和 key 从数据库中获取
   const url = "https://llmrag.lusun.com/v1/chat-messages";
   const key = "app-1IXqXUIzQJ6X4t0PaHh9WHI0";
@@ -31,23 +38,11 @@ export const chatMessages = async (
     }),
   };
 
-  try {
-    const response = await fetch(url, options);
+  const response = await fetch(url, options);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    return {
-      type: "answer",
-      content: data.answer || data.content || JSON.stringify(data),
-    };
-  } catch (error) {
-    return {
-      type: "message",
-      content: `Error: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
-    };
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
+
+  return (await response.json()) as LlmragApiResponse;
 };
