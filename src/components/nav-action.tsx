@@ -33,7 +33,6 @@ export function NavAction() {
   });
 
   const handleFileChange = async (event: any) => {
-    console.log("asd");
     try {
       setLoading(true);
 
@@ -71,6 +70,10 @@ export function NavAction() {
         toast.error(err.message);
       } else {
         toast.error("An unknown error occurred");
+      }
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
     }
   };
