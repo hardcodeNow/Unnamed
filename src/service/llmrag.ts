@@ -14,9 +14,7 @@ export type LlmragApiResponse = {
 };
 
 export const chatMessages = async (
-  back_ground_message: string,
-  query: string,
-  user: string,
+  original_text: string,
 ): Promise<LlmragApiResponse> => {
   // 接口 url 和 key 从数据库中获取
   const url = "https://llmrag.lusun.com/v1/chat-messages";
@@ -30,11 +28,11 @@ export const chatMessages = async (
     },
     body: JSON.stringify({
       inputs: {
-        original_text: back_ground_message,
+        original_text: original_text,
       },
-      query: query,
+      query: "hi",
       response_mode: "blocking",
-      user: user,
+      user: "hardcode",
     }),
   };
 

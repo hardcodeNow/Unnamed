@@ -2,6 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { chatMessages } from "@/service/llmrag";
+import { whisperAsr } from "@/service/ast";
 
 const postSchema = z.object({
   id: z.number().optional(),
@@ -10,6 +11,18 @@ const postSchema = z.object({
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
+
+export type AsrRes = {
+  status: string;
+  file_id: number;
+  text: string;
+  chunks: Chunk[];
+};
+
+export type Chunk = {
+  timestamp: number[];
+  text: string;
+};
 
 const createPost = publicProcedure
   .input(
@@ -129,21 +142,23 @@ const genByRecord = publicProcedure
         },
       });
 
-      // Todo: 从杰 STT 服务获取文字
-
-      chatMessages(input.file.name, "todo_test", "user").then(
-        async (result) => {
-          // 更新记录到数据库
-          await ctx.db.post.update({
-            where: {
-              id: post.id,
-            },
-            data: {
-              outline: result.answer,
-            },
-          });
-        },
-      );
+      void whisperAsr(input.file.content).then(async (res: AsrRes) => {
+        if (res.status !== "success") {
+          return {
+            code: 1,
+            msg: "failed",
+          };
+        }
+        const result = await chatMessages(res.text);
+        await ctx.db.post.update({
+          where: {
+            id: post.id,
+          },
+          data: {
+            outline: result.answer,
+          },
+        });
+      });
 
       return {
         code: 0,
