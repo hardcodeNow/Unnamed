@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { HydrateClient } from "@/trpc/server";
+import { Toast } from "@/components/ui/toast";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Unnamed",
@@ -19,7 +21,10 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>
-          <HydrateClient>{children}</HydrateClient>
+          <HydrateClient>
+            <Toaster />
+            {children}
+          </HydrateClient>
         </TRPCReactProvider>
       </body>
     </html>

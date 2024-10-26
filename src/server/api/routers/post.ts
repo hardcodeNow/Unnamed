@@ -121,25 +121,33 @@ const genByRecord = publicProcedure
         });
       }
 
-      const result = await chatMessages(
-        input.file.name,
-        input.file.content,
-        "user",
-      );
-
-      // 保存记录到数据库
-      const psot = await ctx.db.post.create({
+      const post = await ctx.db.post.create({
         data: {
           name: input.file.name,
-          outline: result.answer, // 识别出的文字
+          outline: "", // 识别出的文字
           // 如果需要保存其他信息，在这里添加
         },
       });
 
+      // Todo: 从杰 STT 服务获取文字
+
+      chatMessages(input.file.name, "todo_test", "user").then(
+        async (result) => {
+          // 更新记录到数据库
+          await ctx.db.post.update({
+            where: {
+              id: post.id,
+            },
+            data: {
+              outline: result.answer,
+            },
+          });
+        },
+      );
+
       return {
         code: 0,
         msg: "success",
-        data: psot,
       };
     } catch (error) {
       if (error instanceof TRPCError) {
