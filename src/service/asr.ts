@@ -42,7 +42,7 @@ export const whisperAsr = async (fileContent: string): Promise<AsrRes> => {
     }
 
     const data: AsrRes = (await response.json()) as AsrRes;
-
+    console.log('asr daata', data);
     if (data.status !== "success") {
       throw new Error(`API Error`);
     }
