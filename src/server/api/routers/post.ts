@@ -149,7 +149,7 @@ const genByRecord = publicProcedure
             msg: "failed",
           };
         }
-        const result = await chatMessages(res.text);
+        const result = await chatMessages(JSON.stringify(res.chunks));
         await ctx.db.post.update({
           where: {
             id: post.id,
