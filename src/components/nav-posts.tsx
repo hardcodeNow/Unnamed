@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { type Post } from "@/types/post";
+import Link from "next/link";
 
 export function NavPosts({ posts = [] }: { posts: Post[] }) {
   const { isMobile } = useSidebar();
@@ -29,12 +30,16 @@ export function NavPosts({ posts = [] }: { posts: Post[] }) {
         {posts.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <a href="#">
+              <Link
+                href={{
+                  pathname: `/app/post/${item.id}`,
+                }}
+              >
                 <FileText />
                 <div className="flex flex-col">
                   <span className={"line-clamp-1"}>{item.name}</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

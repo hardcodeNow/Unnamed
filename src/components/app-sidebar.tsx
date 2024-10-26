@@ -1,12 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { LifeBuoy } from "lucide-react";
 
 import Logo from "@/assets/logo.png";
 
 import { NavPosts } from "@/components/nav-posts";
-import { NavSecondary } from "@/components/nav-secondary";
 import {
   Sidebar,
   SidebarContent,

@@ -84,7 +84,7 @@ export function NavAction() {
       <form>
         <CardHeader className="p-4 pb-0">
           <CardTitle className="text-sm">开始记录</CardTitle>
-          <CardDescription>随时随地记录、随时随地总结</CardDescription>
+          <CardDescription>随时随地记录、此时此刻总结</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2.5 p-4">
           <input
