@@ -56,7 +56,7 @@ export default function Page() {
         {tab === "outline" && (
           <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 p-4">
             原文
-            <div className="absolute bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2">
+            {/* <div className="absolute bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2">
               <Button variant="outline" className="rounded-full">
                 <Mic />
                 录制
@@ -65,11 +65,11 @@ export default function Page() {
                 <Sparkles />
                 生成
               </Button>
-            </div>
+            </div> */}
           </div>
         )}
         {tab === "card" && (
-          <div className="m-4 mt-0 flex flex-1 flex-col items-center justify-center rounded-xl bg-zinc-50 pt-0">
+          <div className="m-0 flex flex-1 flex-col items-center justify-center pt-0">
             {/* <HackathonCard /> */}
             <PersonalCard />
           </div>

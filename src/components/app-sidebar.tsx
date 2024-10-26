@@ -20,24 +20,18 @@ import Image from "next/image";
 import { NavAction } from "./nav-action";
 import { usePostStore } from "@/stores/post";
 import { api } from "@/trpc/react";
-
-const data = {
-  navSecondary: [
-    {
-      title: "联系我们",
-      url: "https://github.com/hardcodeNow",
-      icon: LifeBuoy,
-    },
-  ],
-};
+import { useEffect } from "react";
+import { type Post } from "@/types/post";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { posts, setPosts } = usePostStore();
-// todo useeffect
-  const postsRes = api.post.list.useQuery();
-  if (postsRes.data) {
-    setPosts(postsRes.data);
-  }
+  // todo useeffect
+  const { data: listData } = api.post.list.useQuery();
+
+  useEffect(() => {
+    setPosts(listData as Post[]);
+  }, [listData, setPosts]);
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -61,7 +55,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavPosts posts={posts} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter className="pb-0">
         <NavAction />

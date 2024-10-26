@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { type Post } from "@/types/post";
 
-export function NavPosts({ posts }: { posts: Post[] }) {
+export function NavPosts({ posts = [] }: { posts: Post[] }) {
   const { isMobile } = useSidebar();
 
   return (
@@ -32,7 +32,7 @@ export function NavPosts({ posts }: { posts: Post[] }) {
               <a href="#">
                 <FileText />
                 <div className="flex flex-col">
-                  <span className={'line-clamp-1'}>{item.name}</span>
+                  <span className={"line-clamp-1"}>{item.name}</span>
                 </div>
               </a>
             </SidebarMenuButton>
