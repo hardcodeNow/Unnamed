@@ -32,7 +32,7 @@ export function NavPosts({ posts }: { posts: Post[] }) {
               <a href="#">
                 <FileText />
                 <div className="flex flex-col">
-                  <span>{item.title}</span>
+                  <span className={'line-clamp-1'}>{item.name}</span>
                 </div>
               </a>
             </SidebarMenuButton>

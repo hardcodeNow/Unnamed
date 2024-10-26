@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  BookOpen,
-  Bot,
-  LifeBuoy,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { LifeBuoy } from "lucide-react";
 
 import Logo from "@/assets/logo.png";
 
@@ -25,6 +19,7 @@ import {
 import Image from "next/image";
 import { NavAction } from "./nav-action";
 import { usePostStore } from "@/stores/post";
+import { api } from "@/trpc/react";
 
 const data = {
   navSecondary: [
@@ -37,8 +32,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { posts } = usePostStore();
-
+  const { posts, setPosts } = usePostStore();
+// todo useeffect
+  const postsRes = api.post.list.useQuery();
+  if (postsRes.data) {
+    setPosts(postsRes.data);
+  }
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
