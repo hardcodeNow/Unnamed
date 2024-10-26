@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { chatMessages } from "@/service/llmrag";
-import { whisperAsr } from "@/service/asr";
+import {chunks2Text, whisperAsr} from "@/service/asr";
 
 const postSchema = z.object({
   id: z.number().optional(),
@@ -149,7 +149,10 @@ const genByRecord = publicProcedure
             msg: "failed",
           };
         }
-        const result = await chatMessages(JSON.stringify(res.chunks));
+
+        const text = chunks2Text(res.chunks)
+
+        const result = await chatMessages(text);
         await ctx.db.post.update({
           where: {
             id: post.id,

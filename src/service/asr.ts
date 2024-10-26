@@ -1,7 +1,7 @@
 import FormData from "form-data";
 import { Buffer } from "buffer";
 import fetch, { type Response } from "node-fetch";
-import { type AsrRes } from "@/server/api/routers/post";
+import {type AsrRes, type Chunk} from "@/server/api/routers/post";
 
 interface WhisperError extends Error {
   status?: number;
@@ -42,7 +42,6 @@ export const whisperAsr = async (fileContent: string): Promise<AsrRes> => {
     }
 
     const data: AsrRes = (await response.json()) as AsrRes;
-    console.log('asr daata', data);
     if (data.status !== "success") {
       throw new Error(`API Error`);
     }
@@ -64,3 +63,12 @@ export const whisperAsr = async (fileContent: string): Promise<AsrRes> => {
     throw new Error("Failed to process audio with Whisper ASR: Unknown error");
   }
 };
+
+export const chunks2Text = (chunks: Chunk[]): string => {
+  let res = ""
+  chunks.forEach((chunk) => {
+    const line ="[" + (chunk.timestamp[0] ?? " ").toString() + "--" + (chunk.timestamp[1] ?? " ").toString() + "]  " + chunk.text + ";\n ";
+    res += line;
+  })
+  return res
+}
