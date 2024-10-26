@@ -64,7 +64,7 @@ export default function Page({ params }: { params: { postId: string } }) {
         </div>
       </header>
       {tab === "outline" && (
-        <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 p-4">
+        <div className="relative m-4 mt-0 flex-1 rounded-xl bg-zinc-50 p-0 md:p-4">
           <OutlineEditor />
           {/* <div className="absolute bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2">
             <Button variant="outline" className="rounded-full">

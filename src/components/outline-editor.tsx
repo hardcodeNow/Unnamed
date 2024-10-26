@@ -271,7 +271,7 @@ const OutlineEditor: React.FC = () => {
   const keyPointItem = getItemByType("key_point");
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 p-6">
+    <div className="mx-auto max-w-4xl space-y-6 p-0 md:p-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -283,7 +283,7 @@ const OutlineEditor: React.FC = () => {
           <div>
             <label className="mb-1 block text-sm font-medium">标题</label>
             <Input
-              value={titleItem?.value || ""}
+              value={titleItem?.value ?? ""}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="输入标题"
             />
@@ -291,7 +291,7 @@ const OutlineEditor: React.FC = () => {
           <div>
             <label className="mb-1 block text-sm font-medium">描述</label>
             <Textarea
-              value={descriptionItem?.value || ""}
+              value={descriptionItem?.value ?? ""}
               onChange={(e) => handleDescriptionChange(e.target.value)}
               placeholder="输入描述"
               rows={3}
