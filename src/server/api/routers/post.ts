@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { chatMessages } from "@/service/llmrag";
-import { whisperAsr } from "@/service/ast";
+import { whisperAsr } from "@/service/asr";
 
 const postSchema = z.object({
   id: z.number().optional(),
