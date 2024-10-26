@@ -19,9 +19,27 @@ import {
 } from "@/components/ui/sidebar";
 import { type Post } from "@/types/post";
 import Link from "next/link";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 export function NavPosts({ posts = [] }: { posts: Post[] }) {
   const { isMobile } = useSidebar();
+
+  const utils = api.useUtils();
+
+  const deleteMutation = api.post.delete.useMutation({
+    onSuccess: async () => {
+      await utils.post.list.invalidate();
+      toast.success("移除成功");
+    },
+    onError: (error) => {
+      toast.error(`移除失败: ${error.message}`);
+    },
+  });
+
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
+  };
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -57,7 +75,7 @@ export function NavPosts({ posts = [] }: { posts: Post[] }) {
                   <Share className="text-muted-foreground" />
                   <span>分享</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDelete(item.id)}>
                   <Trash2 className="text-muted-foreground" />
                   <span>移除文章</span>
                 </DropdownMenuItem>
