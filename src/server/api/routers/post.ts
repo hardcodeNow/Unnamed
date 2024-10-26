@@ -15,7 +15,7 @@ const createPost = publicProcedure
       id: true,
       createdAt: true,
       updatedAt: true,
-    })
+    }),
   )
   .mutation(async ({ input, ctx }) => {
     return ctx.db.post.create({
@@ -25,12 +25,25 @@ const createPost = publicProcedure
     });
   });
 
+const getPost = publicProcedure
+  .input(z.number())
+  .query(async ({ input, ctx }) => {
+    return ctx.db.post.findUnique({
+      where: {
+        id: input,
+      },
+      include: {
+        card: true,
+      },
+    });
+  });
+
 const updatePost = publicProcedure
   .input(
     postSchema.omit({
       createdAt: true,
       updatedAt: true,
-    })
+    }),
   )
   .mutation(async ({ input, ctx }) => {
     const { id, ...data } = input;
@@ -50,10 +63,12 @@ const deletePost = publicProcedure
 
 const listPosts = publicProcedure
   .input(
-    z.object({
-      limit: z.number().min(1).max(100).optional(),
-      cursor: z.number().optional(),
-    }).optional()
+    z
+      .object({
+        limit: z.number().min(1).max(100).optional(),
+        cursor: z.number().optional(),
+      })
+      .optional(),
   )
   .query(async ({ input, ctx }) => {
     const limit = input?.limit ?? 50;
@@ -71,25 +86,10 @@ const listPosts = publicProcedure
     });
   });
 
-const searchPosts = publicProcedure
-  .input(z.string())
-  .query(async ({ input, ctx }) => {
-    return ctx.db.post.findMany({
-      where: {
-        name: {
-          contains: input,
-        },
-      },
-      include: {
-        card: true,
-      },
-    });
-  });
-
 export const postRouter = createTRPCRouter({
   create: createPost,
+  get: getPost,
   update: updatePost,
   delete: deletePost,
   list: listPosts,
-  search: searchPosts,
 });
