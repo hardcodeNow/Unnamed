@@ -1,12 +1,20 @@
-import * as Icons from 'lucide-react';
+import * as Icons from "lucide-react";
 
 interface Props {
-  iconName: string;  // 比如后端返回 "Activity" 或 "Bell"
+  className?: string;
+  iconName: string; // 比如后端返回 "Activity" 或 "Bell"
   size?: number;
   color?: string;
+  style?: React.CSSProperties;
 }
 
-const DynamicIcon = ({ iconName, size = 24, color }: Props) => {
+const DynamicIcon = ({
+  className,
+  style,
+  iconName,
+  size = 24,
+  color,
+}: Props) => {
   const Icon = Icons[iconName as keyof typeof Icons];
 
   if (!Icon) {
@@ -15,7 +23,7 @@ const DynamicIcon = ({ iconName, size = 24, color }: Props) => {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  return <Icon size={size} color={color} />;
+  return <Icon style={style} className={className} size={size} color={color} />;
 };
 
 export default DynamicIcon;

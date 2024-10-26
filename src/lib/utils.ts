@@ -13,3 +13,13 @@ export const convertToBase64 = (file: Blob) => {
     reader.onerror = (error) => reject(new Error(String(error)));
   });
 };
+
+export const formatDate = (date: Date) => {
+  return date.toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};

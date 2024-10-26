@@ -1,4 +1,4 @@
-import {type Card} from "@/types/card";
+import { type Card } from "@/types/card";
 
 export type Post = {
   id: number;
@@ -16,17 +16,18 @@ export interface ContentDetail {
   timestamp: string;
 }
 
-// 标题接口
+// 带图标的标题接口
 export interface Title {
   text: string;
   level: number;
+  icon: string; // 添加 icon 字段
 }
 
 // 子标题接口
 export interface SubHeader {
   id: string;
   title: Title;
-  content: string | Record<string, string>;
+  content: string;
   content_detail: ContentDetail;
 }
 
@@ -40,33 +41,44 @@ export interface ContentBody {
 // 关键点接口
 export interface KeyPoint {
   title: string;
+  icon: string; // 添加 icon 字段
   content: string;
   content_detail: ContentDetail;
 }
 
 // 各种类型的结果项接口
+export interface TitleResult {
+  type: "title";
+  value: string;
+}
+
 export interface DescriptionResult {
-  type: 'description';
+  type: "description";
   value: string;
 }
 
 export interface TagResult {
-  type: 'tag';
+  type: "tag";
   value: string[];
 }
 
 export interface ContentBodyResult {
-  type: 'content_body';
+  type: "content_body";
   value: ContentBody[];
 }
 
 export interface KeyPointResult {
-  type: 'key_point';
+  type: "key_point";
   value: KeyPoint[];
 }
 
 // 组合所有可能的结果类型
-export type ResultItem = DescriptionResult | TagResult | ContentBodyResult | KeyPointResult;
+export type ResultItem =
+  | TitleResult
+  | DescriptionResult
+  | TagResult
+  | ContentBodyResult
+  | KeyPointResult;
 
 // 最终的数据结构接口
 export interface ProjectData {

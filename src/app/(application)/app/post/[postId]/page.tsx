@@ -1,8 +1,9 @@
 "use client";
 
+import DynamicReactLoader from "@/components/dynamic-react-loader";
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
-import PersonalCard from "@/components/personal-card";
+import { ProjectCard } from "@/components/personal-card";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -15,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
+import { ProjectData } from "@/types/post";
 import { useState } from "react";
 import OutlineEditor from "@/components/outline-editor";
 
@@ -80,7 +82,10 @@ export default function Page({ params }: { params: { postId: string } }) {
       )}
       {tab === "card" && (
         <div className="m-0 w-full flex-1 flex-col pt-0">
-          <PersonalCard />
+          <ProjectCard
+            card={JSON.parse(postData?.outline ?? "[]") as ProjectData}
+            post={postData!}
+          />
         </div>
       )}
     </>
