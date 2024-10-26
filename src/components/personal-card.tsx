@@ -4,6 +4,7 @@ import {
   Zap, GitBranch, DollarSign, MessageCircle,
   Star, Award, TrendingUp, BookOpen
 } from 'lucide-react';
+import DynamicIcon from "@/components/dynamic-icon";
 
 export default function ProjectCard() {
   const projectData = {
@@ -108,7 +109,7 @@ export default function ProjectCard() {
             {/* 核心价值 */}
             <div className="rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 p-6">
               <div className="mb-4 flex items-center gap-2 text-lg font-semibold">
-                <Target className="h-5 w-5 text-blue-600" />
+                <DynamicIcon iconName={'Target'} size={20} color={'rgb(37 99 235)'} />
                 <span>解决方案评估</span>
               </div>
               <div className="space-y-4">
