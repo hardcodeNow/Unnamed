@@ -56,7 +56,9 @@ export const useRecorderStore = create<AudioState & AudioActions>()(
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
-        const mediaRecorder = new MediaRecorder(stream);
+        const mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/mp3",
+        });
 
         mediaRecorder.ondataavailable = (e: BlobEvent) => {
           if (e.data.size > 0) {
