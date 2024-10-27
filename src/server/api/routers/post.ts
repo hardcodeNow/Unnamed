@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { chatMessages } from "@/service/llmrag";
-import {chunks2Text, whisperAsr} from "@/service/asr";
+import { chunks2Text, whisperAsr } from "@/service/asr";
 import { uploadToS3 } from "@/service/s3";
 
 const postSchema = z.object({
@@ -128,11 +128,16 @@ const genByRecord = publicProcedure
       }
 
       // 检查文件类型
-      const allowedTypes = ["audio/wav", "audio/mp3", "audio/mpeg"];
+      const allowedTypes = [
+        "audio/wav",
+        "audio/mp3",
+        "audio/mpeg",
+        "audio/webm",
+      ];
       if (!allowedTypes.includes(input.file.type)) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "仅支持 WAV, MP3 格式的音频文件",
+          message: "仅支持 WAV, MP3, WEBM 格式的音频文件",
         });
       }
 
@@ -147,7 +152,7 @@ const genByRecord = publicProcedure
       const fileUrl = await uploadToS3(
         input.file.content,
         input.file.name,
-        input.file.type
+        input.file.type,
       );
       void whisperAsr(input.file.content).then(async (res: AsrRes) => {
         if (res.status !== "success") {
@@ -157,7 +162,7 @@ const genByRecord = publicProcedure
           };
         }
 
-        const text = chunks2Text(res.chunks)
+        const text = chunks2Text(res.chunks);
 
         const result = await chatMessages(text);
         await ctx.db.post.update({

@@ -56,9 +56,7 @@ export const useRecorderStore = create<AudioState & AudioActions>()(
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
-        const mediaRecorder = new MediaRecorder(stream, {
-          mimeType: "audio/mp3",
-        });
+        const mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (e: BlobEvent) => {
           if (e.data.size > 0) {
@@ -68,7 +66,7 @@ export const useRecorderStore = create<AudioState & AudioActions>()(
 
         mediaRecorder.onstop = () => {
           const { audioChunks } = get();
-          const blob = new Blob(audioChunks, { type: "audio/mp3" });
+          const blob = new Blob(audioChunks);
           const reader = new FileReader();
 
           reader.readAsDataURL(blob);

@@ -92,8 +92,8 @@ export function NavAction() {
     if (audioBase64) {
       genByRecord.mutate({
         file: {
-          name: `录音文件_${Date.now()}.mp3`,
-          type: "audio/mp3",
+          name: `录音文件_${Date.now()}`,
+          type: "audio/webm",
           content: audioBase64,
         },
       });
