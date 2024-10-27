@@ -1,31 +1,61 @@
 import React from "react";
-import { Calendar, Cpu, DollarSign, Award, TrendingUp } from "lucide-react";
+import { Calendar } from "lucide-react";
 import DynamicIcon from "@/components/dynamic-icon";
-import { ContentBody, Post, ProjectData } from "@/types/post";
+import { type ContentBody, type Post, type ProjectData } from "@/types/post";
 import { formatDate } from "@/lib/utils";
 import { NotFound } from "./not-found";
+import { usePlayerStore } from "@/stores/player";
 
 type Props = {
   post: Post;
   card: ProjectData;
 };
 
+let colorIndex = 0;
+const colors = ["red", "yellow", "green", "blue", "purple", "pink"];
+
 const randomColor = () => {
-  const colors = ["red", "yellow", "green", "blue", "purple", "pink"];
-  return colors[Math.floor(Math.random() * colors.length)];
+  const color = colors[colorIndex];
+  colorIndex = (colorIndex + 1) % colors.length;
+  return color;
 };
 
-const randomOpacity = () => {
-  const opacity = [0, 10];
-  return opacity[Math.floor(Math.random() * opacity.length)];
-};
+// const randomOpacity = () => {
+//   const opacity = [0, 10];
+//   return opacity[Math.floor(Math.random() * opacity.length)];
+// };
+
+function parseRangeString(str: string) {
+  // 如果输入为空，返回默认值
+  if (!str) return [0, 0];
+
+  // 移除所有空格
+  str = str.trim();
+
+  // 提取所有数字（包含小数点）
+  const numbers = str.match(/\d+\.\d+|\d+/g) ?? [];
+
+  // 取前两个数字，如果不存在则补0
+  const start = parseFloat(numbers[0] ?? "0");
+  const end = parseFloat(numbers[1] ?? numbers[0] ?? "0");
+
+  return [start, end];
+}
+
 const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
   const color1 = randomColor();
-  const color2 = randomColor();
+
+  const { setCurrentTime } = usePlayerStore();
+
+  const handleSetPlayerTime = (unhandleTimestamp: string) => {
+    // [1.00--20.00]
+    const times = parseRangeString(unhandleTimestamp);
+    setCurrentTime(times[0] ?? 0);
+  };
 
   return (
     <div
-      className={`rounded-xl bg-gradient-to-tl from-${color1}-500/${randomOpacity()} to-${color2}-500/20 p-6`}
+      className={`rounded-xl bg-gradient-to-tl from-${color1}-500/0 to-${color1}-500/10 p-6`}
     >
       <div className="mb-4 flex items-center gap-2 text-lg font-semibold">
         <DynamicIcon
@@ -37,7 +67,11 @@ const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
       </div>
       <div className="space-y-4">
         {data.subHeaders.map((sub, index) => (
-          <div key={index} className="rounded-lg bg-white p-4 shadow-sm">
+          <div
+            key={index}
+            className="cursor-pointer select-none rounded-lg bg-white p-4 shadow-sm"
+            onClick={() => handleSetPlayerTime(sub.content_detail.timestamp)}
+          >
             <div className="mb-3 flex items-center gap-2">
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full bg-${color1}-100`}
@@ -48,11 +82,12 @@ const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
               </div>
               <span className={`text-sm text-${color1}-600`}>
                 {sub.title.text}
+                <span className="text-muted-foreground">
+                  （{parseRangeString(sub.content_detail.timestamp)[0]} 秒）
+                </span>
               </span>
             </div>
-            <p className="leading-relaxed text-gray-700">
-              {sub.content as string}
-            </p>
+            <p className="leading-relaxed text-gray-700">{sub.content}</p>
           </div>
         ))}
       </div>
@@ -88,7 +123,10 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
           {card.result
             .find((item) => item.type === "key_point")
             ?.value.map((keyPoint, index) => (
-              <div key={index} className="rounded-xl bg-gray-50 p-4">
+              <div
+                key={index}
+                className="select-none rounded-xl bg-gray-50 p-4"
+              >
                 <div className="mb-3 flex items-center gap-2">
                   <DynamicIcon
                     className={`h-5 w-5 text-${randomColor()}-500`}

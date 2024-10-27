@@ -15,9 +15,10 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
-import {Post, ProjectData} from "@/types/post";
-import { useState } from "react";
+import { type Post, type ProjectData } from "@/types/post";
 import OutlineEditor from "@/components/outline-editor";
+import { useEffect, useState } from "react";
+import { usePlayerStore } from "@/stores/player";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const [tab, setTab] = useState("card");
@@ -28,6 +29,13 @@ export default function Page({ params }: { params: { postId: string } }) {
   } = api.post.get.useQuery(Number(params.postId), {
     enabled: !!params.postId,
   });
+  const { setUrl } = usePlayerStore();
+
+  useEffect(() => {
+    if (isSuccess && postData && params.postId) {
+      setUrl(`https://cdn.airbozh.cn/uploads/${postData?.name}`);
+    }
+  }, [isSuccess, params.postId, postData, setUrl]);
 
   if (!postData && isSuccess) {
     return <NotFound errorMsg="文档不存在" />;

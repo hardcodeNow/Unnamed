@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import React, { useEffect, useRef, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,14 +11,22 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-
+import { usePlayerStore } from "@/stores/player";
 export const AudioPlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const {
+    url,
+    isPlaying,
+    duration,
+    currentTime,
+    volume,
+    isMuted,
+    setIsMuted,
+    setVolume,
+    setDuration,
+    setIsPlaying,
+    setCurrentTime,
+  } = usePlayerStore();
+  const audioRef = useRef(null);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
@@ -36,6 +45,12 @@ export const AudioPlayer = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  const handleError = () => {
+    setDuration(0);
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
+
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
     setCurrentTime(audioRef.current.currentTime);
@@ -46,16 +61,20 @@ export const AudioPlayer = () => {
     setDuration(audioRef.current.duration);
   };
 
-  const handleSeek = (value: [number]) => {
-    if (!audioRef.current) return;
-    audioRef.current.currentTime = value[0];
+  const handleSeek = (value) => {
     setCurrentTime(value[0]);
   };
 
-  const handleVolumeChange = (value: [number]) => {
-    if (!audioRef.current) return;
-    audioRef.current.volume = value[0];
-    setVolume(value[0]);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = currentTime;
+    }
+  }, [currentTime]);
+
+  const handleVolumeChange = (value) => {
+    const newVolume = value[0];
+    setVolume(newVolume);
+    audioRef.current.volume = newVolume;
   };
 
   const toggleMute = () => {
@@ -78,9 +97,10 @@ export const AudioPlayer = () => {
     <Card className="fixed bottom-0 left-0 right-0 rounded-b-none border-t bg-background p-4 shadow-lg">
       <audio
         ref={audioRef}
-        src="https://cdn.airbozh.cn/fun-storage/record/%e5%86%85%e9%83%a8%e8%ae%a8%e8%ae%ba%e4%bc%9a10%e6%9c%8826%e6%97%a5%2011%e7%82%b904%e5%88%86.m4a..mp3?_upd=%E5%86%85%E9%83%A8%E8%AE%A8%E8%AE%BA%E4%BC%9A10%E6%9C%8826%E6%97%A5+11%E7%82%B904%E5%88%86.m4a..mp3&_upt=5329c8f01730008276"
+        src={url}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
+        onError={handleError}
       />
 
       <div className="mx-auto flex max-w-3xl items-center justify-center gap-4 md:justify-start">
