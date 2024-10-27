@@ -8,6 +8,7 @@ type PlayerState = {
   volume: number;
   isMuted: boolean;
   url: string;
+  actionTime: number;
 };
 
 type PlayerActions = {
@@ -17,6 +18,7 @@ type PlayerActions = {
   setDuration: (duration: number) => void;
   setVolume: (volume: number) => void;
   setIsMuted: (isMuted: boolean) => void;
+  setActionTime: (time: number) => void;
 };
 
 export const usePlayerStore = create<PlayerState & PlayerActions>()(
@@ -28,8 +30,15 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
     duration: 0,
     volume: 1,
     isMuted: false,
+    actionTime: 0,
 
     // Actions
+
+    setActionTime: (time) => {
+      set((state) => {
+        state.actionTime = time;
+      });
+    },
 
     setUrl: (url) => {
       set((state) => {

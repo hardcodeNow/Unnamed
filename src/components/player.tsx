@@ -20,6 +20,7 @@ export const AudioPlayer = () => {
     currentTime,
     volume,
     isMuted,
+    actionTime,
     setIsMuted,
     setVolume,
     setDuration,
@@ -67,9 +68,10 @@ export const AudioPlayer = () => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = currentTime;
+      console.log("actionTime", actionTime);
+      audioRef.current.currentTime = actionTime;
     }
-  }, [currentTime]);
+  }, [actionTime]);
 
   const handleVolumeChange = (value) => {
     const newVolume = value[0];

@@ -44,12 +44,12 @@ const ContentBodyCmp: React.FC<{ data: ContentBody; colorIndex: number }> = ({
   data,
   colorIndex,
 }) => {
-  const { setCurrentTime } = usePlayerStore();
+  const { setActionTime } = usePlayerStore();
 
   const handleSetPlayerTime = (unhandleTimestamp: string) => {
     // [1.00--20.00]
     const times = parseRangeString(unhandleTimestamp);
-    setCurrentTime(times[0] ?? 0);
+    setActionTime(times[0] ?? 0);
   };
 
   return (
