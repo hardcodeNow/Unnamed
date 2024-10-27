@@ -84,7 +84,7 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 border-b border-gray-100 py-6 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 border-b border-gray-100 py-6 pt-0 md:grid-cols-3 lg:grid-cols-4">
           {card.result
             .find((item) => item.type === "key_point")
             ?.value.map((keyPoint, index) => (

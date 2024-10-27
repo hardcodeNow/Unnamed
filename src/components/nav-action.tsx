@@ -1,6 +1,4 @@
-import * as React from "react";
-
-import { Mic, Play, Plus } from "lucide-react";
+import { AudioLines, Mic, Upload } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -13,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { convertToBase64 } from "@/lib/utils";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRecorderStore } from "@/stores/recorder";
 
 export function NavAction() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -82,6 +80,27 @@ export function NavAction() {
     fileInputRef.current?.click();
   };
 
+  const {
+    isRecording,
+    audioBase64,
+    startRecording,
+    stopRecording,
+    clearRecording,
+  } = useRecorderStore();
+
+  useEffect(() => {
+    if (audioBase64) {
+      genByRecord.mutate({
+        file: {
+          name: "录音文件_" + new Date().toISOString(),
+          type: "audio/wav",
+          content: audioBase64,
+        },
+      });
+      clearRecording();
+    }
+  }, [audioBase64]);
+
   return (
     <Card className="shadow-none">
       <form>
@@ -104,19 +123,33 @@ export function NavAction() {
             type="button"
             disabled={loading}
             size="sm"
-            className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none"
+            variant="outline"
             onClick={handleButtonClick}
           >
-            <Mic />
-            {loading ? "上传中..." : "录音频"}
+            <Upload />
+            {loading ? "上传中..." : "传音频文件"}
           </Button>
-          {/* <Button
-            className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none"
-            size="sm"
-          >
-            <Plus />
-            写文档
-          </Button> */}
+          {isRecording ? (
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => stopRecording()}
+            >
+              <AudioLines />
+              录音中
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none"
+              size="sm"
+              onClick={() => startRecording()}
+            >
+              <Mic />
+              开始记录
+            </Button>
+          )}
         </CardContent>
       </form>
     </Card>

@@ -27,8 +27,8 @@ const initialState: AudioState = {
   audioChunks: [],
 };
 
-const useAudioStore = create<AudioState & AudioActions>()(
-  immer((set) => ({
+export const useRecorderStore = create<AudioState & AudioActions>()(
+  immer((set, get) => ({
     ...initialState,
 
     setMediaRecorder: (recorder: MediaRecorder) =>
@@ -60,19 +60,19 @@ const useAudioStore = create<AudioState & AudioActions>()(
 
         mediaRecorder.ondataavailable = (e: BlobEvent) => {
           if (e.data.size > 0) {
-            useAudioStore.getState().addAudioChunk(e.data);
+            get().addAudioChunk(e.data);
           }
         };
 
         mediaRecorder.onstop = () => {
-          const { audioChunks } = useAudioStore.getState();
+          const { audioChunks } = get();
           const blob = new Blob(audioChunks, { type: "audio/wav" });
           const reader = new FileReader();
 
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
             const base64data = reader.result as string;
-            useAudioStore.getState().setAudioBase64(base64data);
+            get().setAudioBase64(base64data);
           };
         };
 
@@ -105,5 +105,3 @@ const useAudioStore = create<AudioState & AudioActions>()(
       }),
   })),
 );
-
-export default useAudioStore;
