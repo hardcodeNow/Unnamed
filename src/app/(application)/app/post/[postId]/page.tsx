@@ -87,7 +87,6 @@ export default function Page({ params }: { params: { postId: string } }) {
             card={JSON.parse(postData?.outline ?? "[]") as ProjectData}
             post={postData!}
           />
-          <AudioPlayer />
         </div>
       )}
     </>

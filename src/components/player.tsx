@@ -11,7 +11,7 @@ import {
   VolumeX,
 } from "lucide-react";
 
-const AudioPlayer = () => {
+export const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -60,15 +60,15 @@ const AudioPlayer = () => {
   };
 
   return (
-    <Card className="fixed bottom-0 left-0 right-0 border-t bg-background p-4 shadow-lg">
+    <Card className="fixed bottom-0 left-0 right-0 rounded-b-none border-t bg-background p-4 shadow-lg">
       <audio
         ref={audioRef}
-        src="/path-to-your-audio.mp3"
+        src="https://cdn.airbozh.cn/fun-storage/record/%e5%86%85%e9%83%a8%e8%ae%a8%e8%ae%ba%e4%bc%9a10%e6%9c%8826%e6%97%a5%2011%e7%82%b904%e5%88%86.m4a..mp3?_upd=%E5%86%85%E9%83%A8%E8%AE%A8%E8%AE%BA%E4%BC%9A10%E6%9C%8826%E6%97%A5+11%E7%82%B904%E5%88%86.m4a..mp3&_upt=5329c8f01730008276"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
       />
 
-      <div className="mx-auto flex max-w-3xl items-center gap-4">
+      <div className="mx-auto flex max-w-3xl items-center justify-center gap-4 md:justify-start">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -95,7 +95,7 @@ const AudioPlayer = () => {
           </Button>
         </div>
 
-        <div className="flex flex-1 items-center gap-2">
+        <div className="hidden flex-1 items-center gap-2 md:flex">
           <span className="w-12 text-sm text-muted-foreground">
             {formatTime(currentTime)}
           </span>
@@ -114,7 +114,7 @@ const AudioPlayer = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2 md:flex">
           <Button variant="ghost" size="icon" onClick={toggleMute}>
             {isMuted ? (
               <VolumeX className="h-4 w-4" />
@@ -129,12 +129,10 @@ const AudioPlayer = () => {
             max={1}
             step={0.1}
             onValueChange={handleVolumeChange}
-            className="w-24"
+            className="hidden w-24 md:flex"
           />
         </div>
       </div>
     </Card>
   );
 };
-
-export default AudioPlayer;

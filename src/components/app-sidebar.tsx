@@ -41,7 +41,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Image src={Logo} alt="Logo" />
                 </div>
                 <div className="grid flex-1 gap-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">VoicePad</span>
+                  <span className="truncate font-semibold">Voice2Note</span>
                   <span className="truncate text-xs">
                     由 Hardcode Team 创作
                   </span>
@@ -54,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavPosts posts={posts} />
       </SidebarContent>
-      <SidebarFooter className="pb-0">
+      <SidebarFooter>
         <NavAction />
       </SidebarFooter>
     </Sidebar>

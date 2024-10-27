@@ -8,7 +8,7 @@ export default function Page() {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="flex flex-col items-center justify-center space-y-3">
             <h1 className="bg-gradient-to-tl from-violet-500 to-cyan-500 bg-clip-text text-4xl font-bold tracking-tighter text-transparent md:text-5xl lg:text-6xl/none">
-              VoicePad
+              Voice2Note
             </h1>
             <p className="mx-auto max-w-[700px] py-2 text-gray-500 dark:text-gray-400 md:text-lg">
               一个帮助你记录语音的小助手，随时随地记录、此时此刻总结
