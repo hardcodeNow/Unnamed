@@ -66,7 +66,7 @@ export const useRecorderStore = create<AudioState & AudioActions>()(
 
         mediaRecorder.onstop = () => {
           const { audioChunks } = get();
-          const blob = new Blob(audioChunks, { type: "audio/wav" });
+          const blob = new Blob(audioChunks, { type: "audio/mp3" });
           const reader = new FileReader();
 
           reader.readAsDataURL(blob);

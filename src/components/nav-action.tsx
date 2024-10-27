@@ -92,14 +92,14 @@ export function NavAction() {
     if (audioBase64) {
       genByRecord.mutate({
         file: {
-          name: "录音文件_" + new Date().toISOString(),
-          type: "audio/wav",
+          name: `录音文件_${Date.now()}.mp3`,
+          type: "audio/mp3",
           content: audioBase64,
         },
       });
       clearRecording();
     }
-  }, [audioBase64]);
+  }, [audioBase64, clearRecording, genByRecord]);
 
   return (
     <Card className="shadow-none">
