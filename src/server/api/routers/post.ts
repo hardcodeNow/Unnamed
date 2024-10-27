@@ -3,6 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { chatMessages } from "@/service/llmrag";
 import {chunks2Text, whisperAsr} from "@/service/asr";
+import { uploadToS3 } from "@/service/s3";
 
 const postSchema = z.object({
   id: z.number().optional(),
@@ -142,6 +143,11 @@ const genByRecord = publicProcedure
         },
       });
 
+      const fileUrl = await uploadToS3(
+        input.file.content,
+        input.file.name,
+        input.file.type
+      );
       void whisperAsr(input.file.content).then(async (res: AsrRes) => {
         if (res.status !== "success") {
           return {
