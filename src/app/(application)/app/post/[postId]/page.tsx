@@ -19,6 +19,7 @@ import { api } from "@/trpc/react";
 import { ProjectData } from "@/types/post";
 import { useState } from "react";
 import OutlineEditor from "@/components/outline-editor";
+import AudioPlayer from "@/components/player";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const [tab, setTab] = useState("card");
@@ -86,6 +87,7 @@ export default function Page({ params }: { params: { postId: string } }) {
             card={JSON.parse(postData?.outline ?? "[]") as ProjectData}
             post={postData!}
           />
+          <AudioPlayer />
         </div>
       )}
     </>
