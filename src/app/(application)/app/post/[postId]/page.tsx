@@ -34,7 +34,7 @@ export default function Page({ params }: { params: { postId: string } }) {
     return <NotFound errorMsg="文档不存在" />;
   }
 
-  if (isLoading) {
+  if (isLoading || (isSuccess && !postData?.outline)) {
     return <Loading></Loading>;
   }
 
