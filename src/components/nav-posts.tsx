@@ -88,10 +88,10 @@ export function NavPosts({ posts = [] }: { posts: Post[] }) {
                     <Share className="text-muted-foreground" />
                     <span>分享</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDelete(item.id)}>
+                  {/* <DropdownMenuItem onClick={() => handleDelete(item.id)}>
                     <Trash2 className="text-muted-foreground" />
                     <span>移除文章</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>

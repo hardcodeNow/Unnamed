@@ -105,11 +105,7 @@ export const AudioPlayer = () => {
 
       <div className="mx-auto flex max-w-3xl items-center justify-center gap-4 md:justify-start">
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleSkipBackward}
-          >
+          <Button variant="ghost" size="icon" onClick={handleSkipBackward}>
             <SkipBack className="h-4 w-4" />
           </Button>
 
@@ -121,11 +117,7 @@ export const AudioPlayer = () => {
             )}
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleSkipForward}
-          >
+          <Button variant="ghost" size="icon" onClick={handleSkipForward}>
             <SkipForward className="h-4 w-4" />
           </Button>
         </div>
