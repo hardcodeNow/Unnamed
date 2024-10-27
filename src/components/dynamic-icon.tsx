@@ -1,5 +1,5 @@
 import * as Icons from "lucide-react";
-
+import { Star } from "lucide-react";
 interface Props {
   className?: string;
   iconName: string; // 比如后端返回 "Activity" 或 "Bell"
@@ -18,7 +18,14 @@ const DynamicIcon = ({
   const Icon = Icons[iconName as keyof typeof Icons];
 
   if (!Icon) {
-    return null; // 或者返回一个默认图标
+    return (
+      <Star
+        style={style}
+        className={className}
+        size={size}
+        color={color}
+      ></Star>
+    ); // 或者返回一个默认图标
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

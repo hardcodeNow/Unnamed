@@ -11,12 +11,10 @@ type Props = {
   card: ProjectData;
 };
 
-let colorIndex = 0;
 const colors = ["red", "yellow", "green", "blue", "purple", "pink"];
 
-const randomColor = () => {
-  const color = colors[colorIndex];
-  colorIndex = (colorIndex + 1) % colors.length;
+const randomColor = (index: number) => {
+  const color = colors[index % colors.length];
   return color;
 };
 
@@ -42,9 +40,10 @@ function parseRangeString(str: string) {
   return [start, end];
 }
 
-const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
-  const color1 = randomColor();
-
+const ContentBodyCmp: React.FC<{ data: ContentBody; colorIndex: number }> = ({
+  data,
+  colorIndex,
+}) => {
   const { setCurrentTime } = usePlayerStore();
 
   const handleSetPlayerTime = (unhandleTimestamp: string) => {
@@ -55,7 +54,7 @@ const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
 
   return (
     <div
-      className={`rounded-xl bg-gradient-to-tl from-${color1}-500/0 to-${color1}-500/10 p-6`}
+      className={`rounded-xl bg-gradient-to-tl from-${randomColor(colorIndex)}-500/0 to-${randomColor(colorIndex)}-500/10 p-6`}
     >
       <div className="mb-4 flex items-center gap-2 text-lg font-semibold">
         <DynamicIcon
@@ -74,13 +73,15 @@ const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
           >
             <div className="mb-3 flex items-center gap-2">
               <div
-                className={`flex h-6 w-6 items-center justify-center rounded-full bg-${color1}-100`}
+                className={`flex h-6 w-6 items-center justify-center rounded-full bg-${randomColor(colorIndex)}-100`}
               >
-                <span className={`font-bold text-${color1}-600`}>
+                <span
+                  className={`font-bold text-${randomColor(colorIndex)}-600`}
+                >
                   {index + 1}
                 </span>
               </div>
-              <span className={`text-sm text-${color1}-600`}>
+              <span className={`text-sm text-${randomColor(colorIndex)}-600`}>
                 {sub.title.text}
                 <span className="text-muted-foreground">
                   （{parseRangeString(sub.content_detail.timestamp)[0]} 秒）
@@ -129,7 +130,7 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
               >
                 <div className="mb-3 flex items-center gap-2">
                   <DynamicIcon
-                    className={`h-5 w-5 text-${randomColor()}-500`}
+                    className={`h-5 w-5 text-${randomColor(index)}-500`}
                     iconName={keyPoint.icon}
                   />
                   <span className="font-medium">{keyPoint.title}</span>
@@ -143,7 +144,11 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
           {card.result
             .find((item) => item.type === "content_body")
             ?.value.map((contentBody, index) => (
-              <ContentBodyCmp key={index} data={contentBody} />
+              <ContentBodyCmp
+                key={index}
+                data={contentBody}
+                colorIndex={index + 1}
+              />
             ))}
         </div>
       </div>
