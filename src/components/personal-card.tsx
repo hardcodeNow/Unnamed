@@ -15,15 +15,24 @@ const randomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
+const randomOpacity = () => {
+  const opacity = [0, 10];
+  return opacity[Math.floor(Math.random() * opacity.length)];
+};
 const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
-  const color = randomColor();
+  const color1 = randomColor();
+  const color2 = randomColor();
 
   return (
     <div
-      className={`rounded-xl bg-gradient-to-r from-${color}-500/10 to-${color}-500/10 p-6`}
+      className={`rounded-xl bg-gradient-to-tl from-${color1}-500/${randomOpacity()} to-${color2}-500/20 p-6`}
     >
       <div className="mb-4 flex items-center gap-2 text-lg font-semibold">
-        <DynamicIcon iconName={"Target"} size={20} color={"rgb(37 99 235)"} />
+        <DynamicIcon
+          iconName={data.title.icon}
+          size={20}
+          color={"rgb(37 99 235)"}
+        />
         <span>{data.title.text}</span>
       </div>
       <div className="space-y-4">
@@ -31,13 +40,13 @@ const ContentBodyCmp: React.FC<{ data: ContentBody }> = ({ data }) => {
           <div key={index} className="rounded-lg bg-white p-4 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <div
-                className={`flex h-6 w-6 items-center justify-center rounded-full bg-${color}-100`}
+                className={`flex h-6 w-6 items-center justify-center rounded-full bg-${color1}-100`}
               >
-                <span className={`font-bold text-${color}-600`}>
+                <span className={`font-bold text-${color1}-600`}>
                   {index + 1}
                 </span>
               </div>
-              <span className={`text-sm text-${color}-600`}>
+              <span className={`text-sm text-${color1}-600`}>
                 {sub.title.text}
               </span>
             </div>
@@ -65,7 +74,7 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
               {card.result.find((item) => item.type === "title")?.value}
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base text-gray-600">
               {card.result.find((item) => item.type === "description")?.value}
             </p>
           </div>
@@ -75,16 +84,7 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          {card.result
-            .find((item) => item.type === "content_body")
-            ?.value.map((contentBody, index) => (
-              <ContentBodyCmp key={index} data={contentBody} />
-            ))}
-        </div>
-
-        {/* 底部评分 */}
-        <div className="mt-6 grid grid-cols-2 gap-6 border-t border-gray-100 pt-6 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 border-b border-gray-100 py-6 md:grid-cols-3 lg:grid-cols-4">
           {card.result
             .find((item) => item.type === "key_point")
             ?.value.map((keyPoint, index) => (
@@ -98,6 +98,14 @@ export const ProjectCard: React.FC<Props> = ({ post, card }) => {
                 </div>
                 <p className="text-sm text-gray-600">{keyPoint.content}</p>
               </div>
+            ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {card.result
+            .find((item) => item.type === "content_body")
+            ?.value.map((contentBody, index) => (
+              <ContentBodyCmp key={index} data={contentBody} />
             ))}
         </div>
       </div>
