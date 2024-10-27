@@ -17,46 +17,61 @@ export const AudioPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const togglePlay = () => {
+    if (!audioRef.current) return;
+
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(console.error);
     }
     setIsPlaying(!isPlaying);
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
     setCurrentTime(audioRef.current.currentTime);
   };
 
   const handleLoadedMetadata = () => {
+    if (!audioRef.current) return;
     setDuration(audioRef.current.duration);
   };
 
-  const handleSeek = (value) => {
-    const newTime = value[0];
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+  const handleSeek = (value: [number]) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = value[0];
+    setCurrentTime(value[0]);
   };
 
-  const handleVolumeChange = (value) => {
-    const newVolume = value[0];
-    setVolume(newVolume);
-    audioRef.current.volume = newVolume;
+  const handleVolumeChange = (value: [number]) => {
+    if (!audioRef.current) return;
+    audioRef.current.volume = value[0];
+    setVolume(value[0]);
   };
 
   const toggleMute = () => {
+    if (!audioRef.current) return;
     setIsMuted(!isMuted);
     audioRef.current.muted = !isMuted;
+  };
+
+  const handleSkipBackward = () => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime -= 10;
+  };
+
+  const handleSkipForward = () => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime += 10;
   };
 
   return (
@@ -73,7 +88,7 @@ export const AudioPlayer = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => (audioRef.current.currentTime -= 10)}
+            onClick={handleSkipBackward}
           >
             <SkipBack className="h-4 w-4" />
           </Button>
@@ -89,7 +104,7 @@ export const AudioPlayer = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => (audioRef.current.currentTime += 10)}
+            onClick={handleSkipForward}
           >
             <SkipForward className="h-4 w-4" />
           </Button>
@@ -136,3 +151,5 @@ export const AudioPlayer = () => {
     </Card>
   );
 };
+
+export default AudioPlayer;

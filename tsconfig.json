@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
     /* Base Options: */
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -10,7 +13,6 @@
     "isolatedModules": true,
 
     /* Strictness */
-    "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
 

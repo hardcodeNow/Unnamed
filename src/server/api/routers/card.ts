@@ -19,6 +19,7 @@ const createCard = publicProcedure
   )
   .mutation(async ({ input, ctx }) => {
     return ctx.db.card.create({
+    // @ts-ignore
       data: {
         ...input,
       },

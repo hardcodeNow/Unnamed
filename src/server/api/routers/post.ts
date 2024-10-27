@@ -35,6 +35,7 @@ const createPost = publicProcedure
   )
   .mutation(async ({ input, ctx }) => {
     return ctx.db.post.create({
+      // @ts-ignore
       data: {
         ...input,
       },

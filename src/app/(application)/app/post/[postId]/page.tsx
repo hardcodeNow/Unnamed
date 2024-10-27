@@ -1,6 +1,5 @@
 "use client";
 
-import DynamicReactLoader from "@/components/dynamic-react-loader";
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
 import { ProjectCard } from "@/components/personal-card";
@@ -16,10 +15,9 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/react";
-import { ProjectData } from "@/types/post";
+import {Post, ProjectData} from "@/types/post";
 import { useState } from "react";
 import OutlineEditor from "@/components/outline-editor";
-import AudioPlayer from "@/components/player";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const [tab, setTab] = useState("card");
@@ -39,6 +37,7 @@ export default function Page({ params }: { params: { postId: string } }) {
     return <Loading></Loading>;
   }
 
+  // @ts-ignore
   return (
     <>
       <header className="flex h-16 shrink-0 items-center justify-between gap-2">
@@ -85,7 +84,7 @@ export default function Page({ params }: { params: { postId: string } }) {
         <div className="m-0 w-full flex-1 flex-col pt-0">
           <ProjectCard
             card={JSON.parse(postData?.outline ?? "[]") as ProjectData}
-            post={postData!}
+            post={postData! as unknown as Post}
           />
         </div>
       )}

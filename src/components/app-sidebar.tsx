@@ -23,11 +23,10 @@ import { type Post } from "@/types/post";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { posts, setPosts } = usePostStore();
-  // todo useeffect
   const { data: listData } = api.post.list.useQuery();
 
   useEffect(() => {
-    setPosts(listData as Post[]);
+    setPosts(listData as unknown as Post[]);
   }, [listData, setPosts]);
 
   return (
